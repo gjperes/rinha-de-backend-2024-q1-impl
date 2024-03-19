@@ -23,22 +23,15 @@ public class ClienteController {
     }
 
     @PostMapping("{id}/transacoes")
-    public ResponseEntity<TransacaoResponse> transacao(@PathVariable @NotNull @Positive int id,
+    public ResponseEntity<TransacaoResponse> transacao(@PathVariable @NotNull @Positive long id,
                                                        @RequestBody @Valid @NotNull TransacaoRequest transacao) {
-        Cliente cliente = clienteService
-                .buscarClientePorId(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        var response = transacaoService.efetuar(cliente, transacao);
+        var response = transacaoService.efetuar(id, transacao);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("{id}/extrato")
-    public ResponseEntity<Extrato> extrato(@PathVariable @NotNull @Positive int id) {
-        Cliente cliente = clienteService
-                .buscarClientePorId(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Extrato extrato = transacaoService.consultarExtrato(cliente);
+    public ResponseEntity<Extrato> extrato(@PathVariable @NotNull @Positive long id) {
+        Extrato extrato = transacaoService.consultarExtrato(id);
 
         return ResponseEntity.ok(extrato);
     }

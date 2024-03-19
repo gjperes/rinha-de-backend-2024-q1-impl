@@ -16,8 +16,8 @@ public class ClienteService {
         this.repository = repository;
     }
 
-    public Optional<Cliente> buscarClientePorId(@NotNull @Positive int id) {
-        return repository.findById((long) id);
+    public Optional<Cliente> verificarClienteExistePorId(@NotNull @Positive long id) {
+        return Optional.of(repository.getReferenceById(id));
     }
 
     @Transactional
